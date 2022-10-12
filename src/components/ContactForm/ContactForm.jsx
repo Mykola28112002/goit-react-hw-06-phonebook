@@ -3,7 +3,9 @@ import { Formik,} from 'formik';
 import { Label, Button, Input, Forms, Error } from './ContactForm.styled';
 import { useState } from "react";
 import * as yup from 'yup';
-import PropTypes from 'prop-types';
+import { useDispatch } from "react-redux";
+import { addContact } from "redux/contactSlice";
+import { nanoid } from 'nanoid'
 
 
 const scema = yup.object().shape({
@@ -11,16 +13,28 @@ const scema = yup.object().shape({
     number: yup.string().min(7).max(7).required(),
 })
 
-export function ContactForm({onSubmit}) { 
+export function ContactForm() { 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
 
   const handelSabmit = (values, { resetForm }) => { 
-    onSubmit(values)
-    setName(values.name)
-    setNumber(values.number)
+    const name = values.name;
+      const number = values.number;
+    const newContact = {
+      name,
+      number,
+      id: nanoid(),
+    };
+    dispatch(addContact(newContact))
+    setName(name)
+    setNumber(number)
     resetForm();
   };
+
+  
+
+
     
   return <Formik
           validationSchema={scema}
@@ -53,6 +67,3 @@ export function ContactForm({onSubmit}) {
       </Formik> ;
 }
 
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
