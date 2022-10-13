@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import { getContacts,  getFilters} from 'redux/selectors';
 
-const getVizibleContacts = (contacts, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-  return contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
-  );
-};
+
 
 export const ContactList = ({ onDeleteContactList }) => {
+  const getVizibleContacts = (contacts, filter) => {
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilters);
   const vizibleContacts = getVizibleContacts(contacts, filter);

@@ -6,6 +6,9 @@ import * as yup from 'yup';
 import { useDispatch } from "react-redux";
 import { addContact } from "redux/contactSlice";
 import { nanoid } from 'nanoid'
+import { getContacts } from 'redux/selectors';
+import { useSelector } from "react-redux";
+
 
 
 const scema = yup.object().shape({
@@ -16,6 +19,7 @@ const scema = yup.object().shape({
 export function ContactForm() { 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handelSabmit = (values, { resetForm }) => { 
@@ -26,16 +30,18 @@ export function ContactForm() {
       number,
       id: nanoid(),
     };
-    dispatch(addContact(newContact))
+    const array = contacts.filter(contact => contact.name === name)
+    if (array.length !== 0) {
+      alert('ksbdgkjvlndfslbkns')
+    } if (array.length === 0) {
+      dispatch(addContact(newContact))
+    }
     setName(name)
     setNumber(number)
     resetForm();
   };
 
-  
 
-
-    
   return <Formik
           validationSchema={scema}
           initialValues={{number,name}}
