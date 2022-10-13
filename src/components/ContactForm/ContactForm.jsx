@@ -32,7 +32,7 @@ export function ContactForm() {
     };
     const array = contacts.filter(contact => contact.name === name)
     if (array.length !== 0) {
-      alert('ksbdgkjvlndfslbkns')
+      alert('Such a contact already exists')
     } if (array.length === 0) {
       dispatch(addContact(newContact))
     }
